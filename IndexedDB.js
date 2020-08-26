@@ -1,3 +1,27 @@
+const customerData = [
+    { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+    { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
+];
+
+/**
+ * @type {Object<string, Object>}
+ */
+const IDBSCHEMA = {
+    test: {
+        version:      1,
+        objectStores: new Map(),
+    },
+};
+
+IDBSCHEMA.test.objectStores.set("KeyValue", {
+    primaryKey:    "key",
+    primaryColumn: "code",
+    index:         {
+        code:   {unique: false},
+        userId: {unique: false},
+    },
+});
+
 class IndexedDB extends EventTarget {
 
     constructor(name) {
@@ -51,30 +75,6 @@ class IndexedDB extends EventTarget {
     }
 
 }
-
-const customerData = [
-    { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
-    { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
-];
-
-/**
- * @type {Object<string, Object>}
- */
-const IDBSCHEMA = {
-    test: {
-        version:      1,
-        objectStores: new Map(),
-    },
-};
-
-IDBSCHEMA.test.objectStores.set("KeyValue", {
-    primaryKey:    "key",
-    primaryColumn: "code",
-    index:         {
-        code:   {unique: false},
-        userId: {unique: false},
-    },
-});
 
 const db = new IndexedDB('test');
 db.open();
