@@ -7,7 +7,7 @@ module.exports = {
     mode: "development",
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: "",
+        publicPath: path.resolve(__dirname, 'public'),
         filename: "bundle.js"
     },
     module: {
@@ -41,8 +41,8 @@ module.exports = {
         ]
     },
     devServer: {
-        contentBase: path.resolve(__dirname, 'public'),
-        publicPath: "/",
+        contentBase: path.join(__dirname, 'public'),
+        publicPath: path.join(__dirname, 'dist'),
         port: 3000,
         hotOnly: true
     },
