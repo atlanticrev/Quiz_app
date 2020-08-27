@@ -1,14 +1,16 @@
 const path = require("path");
 const webpack = require("webpack");
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: "./src/index.js",
     mode: "development",
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: path.resolve(__dirname, 'public'),
-        filename: "bundle.js"
+        path: path.resolve(__dirname, './dist'),
+        // publicPath: path.resolve(__dirname, 'dist'),
+        filename: "[name].bundle.js"
     },
     module: {
         rules: [
@@ -19,7 +21,7 @@ module.exports = {
                         loader: MiniCssExtractPlugin.loader, // user style-loader for development
                         options: {
                             // hmr: process.env.NODE_ENV === 'development',
-                            publicPath: path.join(__dirname, 'dist')
+                            publicPath: path.resolve(__dirname, './dist')
                         },
                     },
                     'css-loader',
@@ -41,15 +43,17 @@ module.exports = {
         ]
     },
     devServer: {
-        contentBase: path.join(__dirname, 'public'),
-        publicPath: path.join(__dirname, 'dist'),
+        contentBase: path.resolve(__dirname, './dist'),
+        // publicPath: path.resolve(__dirname, ''),
         port: 3000,
-        hotOnly: true
+        hotOnly: true,
+        historyApiFallback: true
     },
     plugins: [
+        new HtmlWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new MiniCssExtractPlugin({
-            filename: '[name].css'
+            filename: '[name].bundle.css'
         }),
     ]
 };
