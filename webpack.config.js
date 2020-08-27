@@ -3,13 +3,13 @@ const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: "./src/index.js",
     mode: "development",
     output: {
         path: path.resolve(__dirname, './dist'),
-        // publicPath: path.resolve(__dirname, 'dist'),
         filename: "[name].bundle.js"
     },
     module: {
@@ -17,13 +17,15 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader, // user style-loader for development
+                    { // use style-loader for development (styles in <style> tag)
+                        loader: MiniCssExtractPlugin.loader,
                         options: {
-                            // hmr: process.env.NODE_ENV === 'development',
+                            hmr: true,
+                            // reloadAll: true,
                             publicPath: path.resolve(__dirname, './dist')
                         },
                     },
+                    // 'style-loader',
                     'css-loader',
                     'resolve-url-loader',
                     {
@@ -44,13 +46,14 @@ module.exports = {
     },
     devServer: {
         contentBase: path.resolve(__dirname, './dist'),
-        // publicPath: path.resolve(__dirname, ''),
+        publicPath: path.resolve(__dirname, '/'),
         port: 3000,
-        hotOnly: true,
+        hot: true,
         historyApiFallback: true
     },
     plugins: [
         new HtmlWebpackPlugin(),
+        new CleanWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].bundle.css'
