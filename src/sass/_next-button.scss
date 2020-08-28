@@ -1,0 +1,15 @@
+.next-button {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  height: 70px;
+  background-color: var(--button-color);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 50px;
+  min-width: 140px;
+  cursor: pointer;
+}

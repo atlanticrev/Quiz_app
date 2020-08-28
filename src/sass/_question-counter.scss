@@ -1,0 +1,18 @@
+.question-counter-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  color: #8a93ba;
+  font-size: 25px;
+  font-weight: bold;
+  padding: 10px 0;
+  width: 100%;
+  border-bottom: 2px dotted rgba(255, 255, 255, .1);
+  margin-bottom: 20px;
+
+  .question-counter-all, .question-counter-separator {
+    font-size: 15px;
+    color: #5c6488;
+  }
+}
