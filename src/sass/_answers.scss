@@ -6,10 +6,15 @@
   margin-bottom: 50px;
   width: 100%;
 
+  @media screen and (max-width: 320px) {
+    margin-bottom: 40px;
+  }
+
   .answer-button {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    position: relative;
     align-items: center;
     font-size: 20px;
     font-weight: bold;
@@ -23,6 +28,24 @@
 
     &:not(:last-child) {
       margin-bottom: 10px;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translate3d(0, -50%, 0);
+      display: block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #21486a;
+      border-radius: 50%;
+    }
+
+    &.checked:after {
+      background-color: var(--button-color);
+      border-color: var(--button-color);
     }
   }
 }

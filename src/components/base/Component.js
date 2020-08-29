@@ -1,7 +1,10 @@
 export default class Component extends EventTarget {
 
-    constructor() {
+    constructor(options) {
         super();
+        for (let option of Object.keys(options)) {
+            this[option] = options[option];
+        }
         this.el = null;
     }
 
@@ -24,12 +27,14 @@ export default class Component extends EventTarget {
         return tmp.firstElementChild;
     }
 
-    createTemplate () {
-
-    }
+    createTemplate () {}
 
     render (root = document.body) {
         root.appendChild(this.el);
+    }
+
+    remove () {
+        this.el.parentElement.removeChild(this.el);
     }
 
 }

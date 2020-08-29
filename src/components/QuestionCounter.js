@@ -10,16 +10,12 @@ export default class QuestionCounter extends Component {
     }
 
     constructor(options) {
-        super(options);
         options = Object.assign({}, QuestionCounter.defaults, options);
-        this.countAll = options.countAll;
-        this.countCurr = options.countCurr;
+        super(options);
 
         this.el = this.createEl(this.createTemplate());
-        this.render(document.querySelector('.container'));
 
         this.countCurrEl = this.el.querySelector('.question-counter-current');
-        this.countAllEl = this.el.querySelector('.question-counter-all');
     }
 
     createTemplate () {
@@ -30,6 +26,11 @@ export default class QuestionCounter extends Component {
                 <span class="question-counter-all">${this.countAll}</span>                            
             </div>
         `;
+    }
+
+    setCounter (number) {
+        this.countCurr = number;
+        this.countCurrEl.textContent = `Вопрос ${this.countCurr}`;
     }
 
 }

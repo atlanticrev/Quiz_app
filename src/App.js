@@ -1,17 +1,9 @@
 export default class App {
 
-    constructor () {
-        this.el = null;
-    }
+    constructor () {}
 
-    log () {
-        console.log('from App');
-    }
+    start () {}
 
-    activate () {
-        this.el = document.createElement('div');
-        this.el.classList.add('block');
-        document.body.appendChild(this.el);
-    }
+    stop () {}
 
 }

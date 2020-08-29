@@ -12,4 +12,8 @@
   border-radius: 50px;
   min-width: 140px;
   cursor: pointer;
+
+  @media screen and (max-width: 320px) {
+    height: 45px;
+  }
 }

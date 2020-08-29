@@ -10,14 +10,10 @@ export default class Question extends Component {
     }
 
     constructor(options) {
-        super(options);
         options = Object.assign({}, Question.defaults, options);
-
-        this.text = options.text;
-        this.regionNumber = options.regionNumber;
+        super(options);
 
         this.el = this.createEl(this.createTemplate());
-        this.render(document.querySelector('.container'));
 
         this.textEl = this.el.querySelector('.question-text');
         this.regionNumberEl = this.el.querySelector('.question-region-number');

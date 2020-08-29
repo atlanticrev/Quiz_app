@@ -1,0 +1,1 @@
+const regions = 'https://wroom.ru/news/10938';

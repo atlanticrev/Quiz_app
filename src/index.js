@@ -1,9 +1,8 @@
-// import App from './App';
-import Page from './components/Page';
+import PageManager from "./components/base/PageManager";
+import QuizPage from './components/pages/QuizPage';
 
 import './sass/index.scss';
 
-const page = new Page();
-page.setActive();
-
-// setTimeout(() => page.setInactive(), 2000);
+const pageManager = new PageManager();
+pageManager.addPage(new QuizPage({index: 2}));
+pageManager.openPage();
