@@ -5,7 +5,7 @@ export default class QuestionCounter extends Component {
     static get defaults () {
         return {
             countAll: 10,
-            countCurr: 1
+            data: null
         };
     }
 
@@ -21,16 +21,15 @@ export default class QuestionCounter extends Component {
     createTemplate () {
         return `
             <div class="question-counter-container">
-                <span class="question-counter-current">Вопрос ${this.countCurr}</span>
+                <span class="question-counter-current">Вопрос ${this.data.questionCount}</span>
                 <span class="question-counter-separator">/</span>                            
                 <span class="question-counter-all">${this.countAll}</span>                            
             </div>
         `;
     }
 
-    setCounter (number) {
-        this.countCurr = number;
-        this.countCurrEl.textContent = `Вопрос ${this.countCurr}`;
+    update () {
+        this.countCurrEl.textContent = `Вопрос ${this.data.questionCount}`;
     }
 
 }

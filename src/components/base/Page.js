@@ -34,16 +34,23 @@ export default class Page extends Component {
         this.onTransitionEndClose = this.onTransitionEndClose.bind(this);
     }
 
-    open () {
-        requestAnimationFrame(
-            () => requestAnimationFrame(
-                () => {
-                    this.el.addEventListener('transitionend', this.onTransitionEndOpen);
-                    this.el.style.setProperty('opacity', '1');
-                    this.el.style.setProperty('--scale-factor', '1');
-                }
-            )
-        );
+    open (animate = true) {
+        console.warn(animate);
+        if (animate) {
+            requestAnimationFrame(
+                () => requestAnimationFrame(
+                    () => {
+                        this.el.addEventListener('transitionend', this.onTransitionEndOpen);
+                        this.el.style.setProperty('--opacity', '1');
+                        this.el.style.setProperty('--scale-factor', '1');
+                    }
+                )
+            );
+        } else {
+            this.el.style.setProperty('--transition', 'none');
+            this.el.style.setProperty('--opacity', '1');
+            this.el.style.setProperty('--scale-factor', '1');
+        }
     }
 
     onTransitionEndOpen() {
@@ -56,15 +63,18 @@ export default class Page extends Component {
         this.remove();
     }
 
-    close () {
-        this.el.addEventListener('transitionend', this.onTransitionEndClose);
-        this.el.style.setProperty('opacity', '0');
-        this.el.style.setProperty('--scale-factor', '.5');
+    close (animate = true) {
+        if (animate) {
+            this.el.addEventListener('transitionend', this.onTransitionEndClose);
+            this.el.style.setProperty('opacity', '0');
+            this.el.style.setProperty('--scale-factor', '.5');
+        } else {
+            this.remove();
+        }
     }
 
     start () {
         console.log(`${this.constructor.name}: start`);
-        this.children.counter.startCount();
     }
 
 }

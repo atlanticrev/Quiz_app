@@ -4,7 +4,7 @@ export default class Counter extends Component {
 
     static get defaults () {
         return {
-            counter: 20
+            counter: 20,
         };
     }
 
@@ -32,12 +32,13 @@ export default class Counter extends Component {
 
     startCount () {
         this._interval = setInterval(this.intervalTick, 1000);
+        this.el.style.setProperty('animation', '1s ease-in-out scale-up');
         this.dispatchEvent(new CustomEvent('Counter.EVENT_START_COUNT'));
     }
 
     intervalTick () {
         if (this.counter === 0) {
-            this.resetCount();
+            this.stopCount();
             return;
         }
         this.counter--;
@@ -48,6 +49,7 @@ export default class Counter extends Component {
 
     stopCount () {
         clearInterval(this._interval);
+        this.el.style.setProperty('animation', '');
         this.dispatchEvent(new CustomEvent('Counter.EVENT_STOP_COUNT'));
     }
 

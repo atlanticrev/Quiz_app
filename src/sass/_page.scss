@@ -1,6 +1,8 @@
 .page {
   --z-index: 0;
   --scale-factor: .5;
+  --opacity: 0;
+  --transition: all .25s ease-out;
 
   display: flex;
   flex-flow: column nowrap;
@@ -11,9 +13,9 @@
   height: 100vh;
   background-color: var(--page-bg-color);
 
-  opacity: 0;
+  opacity: var(--opacity);
   transform: scale3d(var(--scale-factor), var(--scale-factor), 1);
-  transition: all .25s ease-out;
+  transition: var(--transition);
 
   z-index: var(--z-index);
 

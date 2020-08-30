@@ -11,7 +11,8 @@ export default class PageManager extends EventTarget {
         this.pages.push(page);
     }
 
-    openPage () {
+    openPage (animate = true) {
+        console.warn(animate);
         if (!this.pages.length) {
             throw new Error('No pages');
         }
@@ -26,15 +27,15 @@ export default class PageManager extends EventTarget {
                 }
             }
             this.currPage = pageWithMaxIndex;
-            pageWithMaxIndex.open();
+            pageWithMaxIndex.open(animate);
         }
     }
 
-    closePage () {
+    closePage (animate = true) {
         if (!this.currPage) {
             throw new Error('No opened pages');
         }
-        this.currPage.close();
+        this.currPage.close(animate);
     }
 
 }
