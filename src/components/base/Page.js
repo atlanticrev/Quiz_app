@@ -17,7 +17,9 @@ export default class Page extends Component {
         this.el = this.createEl(this.createTemplate());
         this.container = this.el.querySelector('.container');
 
-        this.bindListeners();
+        this.onTransitionEndOpen = this.onTransitionEndOpen.bind(this);
+        this.onTransitionEndClose = this.onTransitionEndClose.bind(this);
+
         this.render(document.body);
     }
 
@@ -29,10 +31,8 @@ export default class Page extends Component {
         `;
     }
 
-    bindListeners () {
-        this.onTransitionEndOpen = this.onTransitionEndOpen.bind(this);
-        this.onTransitionEndClose = this.onTransitionEndClose.bind(this);
-    }
+    bindListeners () {}
+
 
     open (animate = true) {
         console.warn(animate);

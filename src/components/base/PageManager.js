@@ -1,4 +1,6 @@
-export default class PageManager extends EventTarget {
+import Events from './Events';
+
+export default class PageManager extends Events {
 
     constructor() {
         super();

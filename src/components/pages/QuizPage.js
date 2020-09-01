@@ -40,26 +40,22 @@ export default class QuizPage extends Page {
         this.appendComponent(this.children.button, this.container);
 
         this.onCounterStopped = this.onCounterStopped.bind(this);
+        this.onClick = this.onClick.bind(this);
 
-        this.children.button.addEventListener('Button.EVENT_CLICK', () => {
-            if (this.state.status === this.state.stateList.TICKING) {
-                this.children.counter.stopCount();
-            } else if (this.state.status === this.state.stateList.NEXT) {
-                // @todo delegate to the page manager
-                this.setNewQuestion();
-            }
-        });
-
+        this.children.button.addEventListener('Button.EVENT_CLICK', this.onClick);
         this.children.counter.addEventListener('Counter.EVENT_STOP_COUNT', this.onCounterStopped);
     }
 
+    bindListeners () {}
+
     updateState () {
-        const usedIndexes = [];
         this.state.status = this.state.stateList.TICKING;
+
         this.state.questionCount++;
+
         this.state.answers = [];
         for (let i = 0; i < this.state.answersCount; i++) {
-
+            const usedIndexes = [];
             let index = null;
             do {
                 index = this.randomInt(0, this.data.length - 1);
@@ -98,10 +94,18 @@ export default class QuizPage extends Page {
 
     onCounterStopped () {
         this.state.status = this.state.stateList.NEXT;
-        this.children.button.dispatchEvent(new CustomEvent('statusChanged', {detail: {status: this.state.status}}));
+        this.children.button.dispatchEvent('statusChanged', {detail: {status: this.state.status}});
         this.checkAnswers();
     }
 
+    onClick () {
+        if (this.state.status === this.state.stateList.TICKING) {
+            this.children.counter.stopCount();
+        } else if (this.state.status === this.state.stateList.NEXT) {
+            // @todo delegate to the page manager
+            this.setNewQuestion();
+        }
+    }
 
     /**
      * Util function

@@ -1,3 +1,5 @@
+import Events from './components/base/Events';
+
 const customerData = [
     { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
     { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
@@ -22,7 +24,7 @@ IDBSCHEMA.test.objectStores.set("KeyValue", {
     },
 });
 
-class IndexedDB extends EventTarget {
+class IndexedDB extends Events {
 
     constructor(name) {
         super();

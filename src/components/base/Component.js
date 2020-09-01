@@ -1,4 +1,6 @@
-export default class Component extends EventTarget {
+import Events from './Events';
+
+export default class Component extends Events {
 
     constructor(options) {
         super();

@@ -48,7 +48,7 @@ export default class Button extends Component {
     }
 
     onClick () {
-        this.dispatchEvent(new CustomEvent('Button.EVENT_CLICK'));
+        this.dispatchEvent('Button.EVENT_CLICK');
     }
 
     onStatusChange (e) {
