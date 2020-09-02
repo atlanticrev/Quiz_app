@@ -13,8 +13,8 @@ export default class Button extends Component {
         options = Object.assign({}, Button.defaults, options);
         super(options);
         this.el = this.createEl(this.createTemplate());
-        this.update();
         this.bindListeners();
+        this.update();
     }
 
     bindListeners () {
@@ -24,8 +24,6 @@ export default class Button extends Component {
         this.onMouseUp = this.onMouseUp.bind(this);
 
         this.el.addEventListener('click', this.onClick);
-        // this.el.addEventListener('mousedown', this.onMouseDown);
-        // this.el.addEventListener('mouseup', this.onMouseUp);
         this.addEventListener('statusChanged', this.onStatusChange);
     }
 
@@ -37,14 +35,6 @@ export default class Button extends Component {
 
     update () {
         this.setButtonText(this.data.status);
-    }
-
-    onMouseUp () {
-        this.el.style.boxShadow = '';
-    }
-
-    onMouseDown () {
-        this.el.style.boxShadow = 'inset 0 0 10px #000000';
     }
 
     onClick () {

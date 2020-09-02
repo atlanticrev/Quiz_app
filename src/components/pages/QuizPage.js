@@ -8,7 +8,7 @@ import Button from '../Button';
 export default class QuizPage extends Page {
 
     constructor(options) {
-        options = Object.assign({}, Counter.defaults, options);
+        options = Object.assign({}, QuizPage.defaults, options);
         super(options);
 
         this.state = {

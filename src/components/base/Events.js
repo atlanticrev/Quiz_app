@@ -30,7 +30,6 @@ export default class Events {
 
     dispatchEvent (type, data) {
         if (!this.events.has(type) || !this.events.get(type).length) {
-            console.warn(`There is no handlers of ${type} event`);
             return;
         }
         for (let handler of this.events.get(type)) {
