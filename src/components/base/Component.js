@@ -24,7 +24,6 @@ export default class Component extends Events {
      */
     createEl (templateString) {
         const tmp = document.createElement('div');
-        // @todo sanitize this sting
         tmp.innerHTML = templateString.trim();
         return tmp.firstElementChild;
     }

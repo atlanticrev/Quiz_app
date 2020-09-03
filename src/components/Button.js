@@ -1,4 +1,5 @@
 import Component from './base/Component';
+import Constants from "./base/Constants";
 
 export default class Button extends Component {
 
@@ -20,8 +21,6 @@ export default class Button extends Component {
     bindListeners () {
         this.onClick = this.onClick.bind(this);
         this.onStatusChange = this.onStatusChange.bind(this);
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
 
         this.el.addEventListener('click', this.onClick);
         this.addEventListener('statusChanged', this.onStatusChange);
@@ -29,7 +28,7 @@ export default class Button extends Component {
 
     createTemplate () {
         return `
-            <button class="next-button">${this.text}</button>  
+            <button class="action-button ${this.role}-button">${this.text}</button>  
         `;
     }
 
@@ -47,7 +46,7 @@ export default class Button extends Component {
     }
 
     setButtonText (status) {
-        this.text = status === this.data.stateList.TICKING ? 'Принять' : 'Далее';
+        this.text = status === Constants.STATE_LIST.TICKING ? 'Принять' : 'Далее';
         this.el.textContent = this.text;
     }
 

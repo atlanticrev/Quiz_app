@@ -1,4 +1,5 @@
 import Component from './base/Component';
+import Constants from "./base/Constants";
 
 export default class Answers extends Component {
 
@@ -14,13 +15,12 @@ export default class Answers extends Component {
 
         this.el = this.createEl(this.createTemplate());
 
-        this.state = null;
+        this.state = [];
         this.updateState();
         this.bindListeners();
     }
 
     update () {
-        console.log(this.data);
         this.updateState();
         this.resetCheck();
         this.setValues();
@@ -51,7 +51,8 @@ export default class Answers extends Component {
     }
 
     onLick (e) {
-        if (this.data.status === this.data.stateList.NEXT) {
+        e.preventDefault();
+        if (this.data.status === Constants.STATE_LIST.NEXT) {
             return;
         }
         const answer = this.state.find(answer => answer.index === e.target.dataset.index);
@@ -67,18 +68,18 @@ export default class Answers extends Component {
     createTemplate () {
         return `
             <div class="answers-container">
-                <div class="answer-button" data-index="0">
+                <button class="answer-button" data-index="0">
                     <snap class="answers-text">${this.data.answers[0].number}</snap>
-                </div>                        
-                <div class="answer-button" data-index="1">
+                </button>                        
+                <button class="answer-button" data-index="1">
                     <snap class="answers-text">${this.data.answers[1].number}</snap>
-                </div>                        
-                <div class="answer-button" data-index="2">
+                </button>                        
+                <button class="answer-button" data-index="2">
                     <snap class="answers-text">${this.data.answers[2].number}</snap>
-                </div>                        
-                <div class="answer-button" data-index="3">
+                </button>                        
+                <button class="answer-button" data-index="3">
                     <snap class="answers-text">${this.data.answers[3].number}</snap>
-                </div>                        
+                </button>                        
             </div>
         `;
     }

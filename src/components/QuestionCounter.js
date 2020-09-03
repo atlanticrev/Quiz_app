@@ -14,7 +14,6 @@ export default class QuestionCounter extends Component {
         super(options);
 
         this.el = this.createEl(this.createTemplate());
-
         this.countCurrEl = this.el.querySelector('.question-counter-current');
     }
 
