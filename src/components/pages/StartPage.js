@@ -1,5 +1,6 @@
 import Page from '../base/Page';
 import Button from '../Button';
+import Constants from "../base/Constants";
 
 export default class StartPage extends Page {
 
@@ -10,35 +11,29 @@ export default class StartPage extends Page {
         super(options);
 
         this.state = {
+            status: Constants.STATE_LIST.START,
             needCounter: false,
             questionsCount: 10,
             timeOnAnswer: 10
         };
 
-        this.children = {
-            button: new Button({data: this.state})
+        this.components = {
+            button: new Button({role: 'start', text: 'start', data: this.state})
         };
 
-        this.appendComponent(this.children.button, this.container);
+        for (let key of Object.keys(this.components)) {
+            this.appendComponent(this.components[key], this.container);
+        }
 
         this.onClick = this.onClick.bind(this);
-        this.children.button.addEventListener('Button.EVENT_CLICK', this.onClick);
+        this.components.button.addEventListener('Button.EVENT_CLICK', this.onClick);
     }
 
-    createTemplate () {
-        return `
-            <div class="questions-count">
-                <label class="questions-count__label" for="">
-                    <input class="questions-count__input" type="number">
-                </label>
-            </div>
-            <div class="time-on-answer">
-                <label class="time-on-answer__label" for="">
-                    <input class="time-on-answer__input" type="number">
-                </label>
-            </div>
-            <button class="start-questions">Начать</button>
-        `;
+    start () {}
+
+    onClick () {
+        console.warn('HERE', this);
+        this.dispatchEvent('StartPage.EVENT_START_QUIZ', this.state);
     }
 
 }

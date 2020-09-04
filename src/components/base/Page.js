@@ -6,7 +6,7 @@ export default class Page extends Component {
         return {
             id: Date.now(),
             index: 1,
-            children: null
+            components: null
         };
     }
 
@@ -17,10 +17,9 @@ export default class Page extends Component {
         this.el = this.createEl(this.createTemplate());
         this.container = this.el.querySelector('.container');
 
+        // this.bindListeners();
         this.onTransitionEndOpen = this.onTransitionEndOpen.bind(this);
         this.onTransitionEndClose = this.onTransitionEndClose.bind(this);
-
-        this.render(document.body);
     }
 
     createTemplate () {
@@ -31,12 +30,16 @@ export default class Page extends Component {
         `;
     }
 
-    bindListeners () {}
-
+    // bindListeners () {
+    //     this.onTransitionEndOpen = this.onTransitionEndOpen.bind(this);
+    //     this.onTransitionEndClose = this.onTransitionEndClose.bind(this);
+    // }
 
     open (animate = true) {
-        console.warn(animate);
+        this.render(document.body);
+        // console.warn(`${this.constructor.name}:`, animate);
         if (animate) {
+            this.el.style.setProperty('--transition', 'all .25s ease-out');
             requestAnimationFrame(
                 () => requestAnimationFrame(
                     () => {
@@ -47,7 +50,6 @@ export default class Page extends Component {
                 )
             );
         } else {
-            this.el.style.setProperty('--transition', 'none');
             this.el.style.setProperty('--opacity', '1');
             this.el.style.setProperty('--scale-factor', '1');
         }
@@ -55,7 +57,25 @@ export default class Page extends Component {
 
     onTransitionEndOpen() {
         this.el.removeEventListener('transitionend', this.onTransitionEndOpen);
+        this.el.style.setProperty('--transition', 'none');
         this.start();
+    }
+
+    close (animate = true) {
+        if (animate) {
+            this.el.style.setProperty('--transition', 'all .25s ease-out');
+            requestAnimationFrame(
+                () => requestAnimationFrame(
+                    () => {
+                        this.el.addEventListener('transitionend', this.onTransitionEndClose);
+                        this.el.style.setProperty('opacity', '0');
+                        this.el.style.setProperty('--scale-factor', '.5');
+                    }
+                )
+            );
+        } else {
+            this.remove();
+        }
     }
 
     onTransitionEndClose () {
@@ -63,18 +83,8 @@ export default class Page extends Component {
         this.remove();
     }
 
-    close (animate = true) {
-        if (animate) {
-            this.el.addEventListener('transitionend', this.onTransitionEndClose);
-            this.el.style.setProperty('opacity', '0');
-            this.el.style.setProperty('--scale-factor', '.5');
-        } else {
-            this.remove();
-        }
-    }
-
     start () {
-        console.log(`${this.constructor.name}: start`);
+        console.warn(`${this.constructor.name}: start`);
     }
 
 }

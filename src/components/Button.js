@@ -46,7 +46,13 @@ export default class Button extends Component {
     }
 
     setButtonText (status) {
-        this.text = status === Constants.STATE_LIST.TICKING ? 'Принять' : 'Далее';
+        if (status === Constants.STATE_LIST.START) {
+            this.text = 'Старт';
+        } else if (status === Constants.STATE_LIST.TICKING) {
+            this.text = 'Принять';
+        } else {
+            this.text = 'Далее';
+        }
         this.el.textContent = this.text;
     }
 

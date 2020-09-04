@@ -1,7 +1,8 @@
 export default {
     STATE_LIST: {
-        TICKING: 0,
-        NEXT: 1,
-        COMPLETE: 2
+        START: 0,
+        TICKING: 1,
+        NEXT: 2,
+        COMPLETE: 3
     }
 };

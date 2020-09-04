@@ -2,16 +2,15 @@
   --z-index: 0;
   --scale-factor: .5;
   --opacity: 0;
-  --transition: all .25s ease-out;
+  --transition: none;
 
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  padding: 0 65px;
   width: 100%;
   height: 100vh;
-  background-color: var(--page-bg-color);
+  background-color: transparent;
 
   opacity: var(--opacity);
   transform: scale3d(var(--scale-factor), var(--scale-factor), 1);
@@ -24,8 +23,8 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 80%;
     min-width: 265px;
-    max-width: 400px;
+    max-width: 500px;
   }
 }
