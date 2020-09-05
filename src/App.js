@@ -3,8 +3,6 @@ import PageManager from "./components/base/PageManager";
 import StartPage from "./components/pages/StartPage";
 import QuizPage from "./components/pages/QuizPage";
 
-import storage from './Storage';
-
 export default class App {
 
     constructor () {
@@ -14,7 +12,7 @@ export default class App {
     start () {
         const startPage = new StartPage({name: 'start'});
         startPage.addEventListener('StartPage.EVENT_START_QUIZ', (options) => {
-            this.pageManager.addPage(new QuizPage({name: 'quiz', data: Object.assign({}, options, {storage})}));
+            this.pageManager.addPage(new QuizPage({name: 'quiz', data: options}));
             this.pageManager.openPage('quiz', true)
         });
 

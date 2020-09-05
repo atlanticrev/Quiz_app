@@ -3,7 +3,6 @@ import Component from "./Component";
 export default class Page extends Component {
 
     constructor(options) {
-        options = Object.assign({}, Page.defaults, options);
         super(options);
 
         this.el = this.createEl(this.createTemplate());
@@ -22,8 +21,8 @@ export default class Page extends Component {
     }
 
     open (animate = true) {
+        // console.warn(`${this.constructor.name} isAnimate:`, animate);
         this.render(document.body);
-        // console.warn(`${this.constructor.name}:`, animate);
         if (animate) {
             this.el.style.setProperty('--transition', 'all .25s ease-out');
             requestAnimationFrame(

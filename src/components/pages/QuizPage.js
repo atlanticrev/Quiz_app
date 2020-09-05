@@ -5,12 +5,18 @@ import Question from '../Question';
 import Answers from '../Answers';
 import Button from '../Button';
 
+import { randomInt } from "../../Utils";
+
+import storage from '../../Storage';
+
 import Constants from "../base/Constants";
 
 export default class QuizPage extends Page {
 
     constructor(options) {
         super(options);
+
+        this.storage = storage;
 
         this.state = {
             status: Constants.STATE_LIST.TICKING,
@@ -53,20 +59,20 @@ export default class QuizPage extends Page {
             // Choose random region from a storage
             let index = null;
             do {
-                index = this.randomInt(0, this.data.storage.length - 1);
+                index = randomInt(0, this.storage.length - 1);
             } while (usedIndexes.indexOf(index) !== -1);
             usedIndexes.push(index);
 
             // Take this question from a storage
-            const entry = this.data.storage[index];
+            const entry = this.storage[index];
             this.state.answers.push({
                 region: entry.region,
-                number: entry.numbers[this.randomInt(0, entry.numbers.length - 1)],
+                number: entry.numbers[randomInt(0, entry.numbers.length - 1)],
                 isAnswer: false
             });
         }
         // Set random answer to true answer
-        const index = this.randomInt(0, this.state.answers.length - 1);
+        const index = randomInt(0, this.state.answers.length - 1);
         this.state.answers[index].isAnswer = true;
     }
 
@@ -102,16 +108,6 @@ export default class QuizPage extends Page {
             // @todo delegate to the page manager
             this.setNewQuestion();
         }
-    }
-
-    /**
-     * Util function
-     * @param {number} start
-     * @param {number} stop
-     * @return {number}
-     */
-    randomInt (start, stop) {
-        return Math.floor(Math.random() * ((stop + 1) - start) + start);
     }
 
 }
