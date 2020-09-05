@@ -2,14 +2,6 @@ import Component from "./Component";
 
 export default class Page extends Component {
 
-    static get defaults () {
-        return {
-            id: Date.now(),
-            index: 1,
-            components: null
-        };
-    }
-
     constructor(options) {
         options = Object.assign({}, Page.defaults, options);
         super(options);
@@ -17,9 +9,8 @@ export default class Page extends Component {
         this.el = this.createEl(this.createTemplate());
         this.container = this.el.querySelector('.container');
 
-        // this.bindListeners();
-        this.onTransitionEndOpen = this.onTransitionEndOpen.bind(this);
-        this.onTransitionEndClose = this.onTransitionEndClose.bind(this);
+        this.onOpened = this.onOpened.bind(this);
+        this.onClosed = this.onClosed.bind(this);
     }
 
     createTemplate () {
@@ -30,11 +21,6 @@ export default class Page extends Component {
         `;
     }
 
-    // bindListeners () {
-    //     this.onTransitionEndOpen = this.onTransitionEndOpen.bind(this);
-    //     this.onTransitionEndClose = this.onTransitionEndClose.bind(this);
-    // }
-
     open (animate = true) {
         this.render(document.body);
         // console.warn(`${this.constructor.name}:`, animate);
@@ -43,7 +29,7 @@ export default class Page extends Component {
             requestAnimationFrame(
                 () => requestAnimationFrame(
                     () => {
-                        this.el.addEventListener('transitionend', this.onTransitionEndOpen);
+                        this.el.addEventListener('transitionend', this.onOpened);
                         this.el.style.setProperty('--opacity', '1');
                         this.el.style.setProperty('--scale-factor', '1');
                     }
@@ -55,8 +41,8 @@ export default class Page extends Component {
         }
     }
 
-    onTransitionEndOpen() {
-        this.el.removeEventListener('transitionend', this.onTransitionEndOpen);
+    onOpened() {
+        this.el.removeEventListener('transitionend', this.onOpened);
         this.el.style.setProperty('--transition', 'none');
         this.start();
     }
@@ -67,7 +53,7 @@ export default class Page extends Component {
             requestAnimationFrame(
                 () => requestAnimationFrame(
                     () => {
-                        this.el.addEventListener('transitionend', this.onTransitionEndClose);
+                        this.el.addEventListener('transitionend', this.onClosed);
                         this.el.style.setProperty('opacity', '0');
                         this.el.style.setProperty('--scale-factor', '.5');
                     }
@@ -78,13 +64,13 @@ export default class Page extends Component {
         }
     }
 
-    onTransitionEndClose () {
-        this.el.removeEventListener('transitionend', this.onTransitionEndClose);
+    onClosed () {
+        this.el.removeEventListener('transitionend', this.onClosed);
         this.remove();
     }
 
     start () {
-        console.warn(`${this.constructor.name}: start`);
+        // console.warn(`${this.constructor.name}: start`);
     }
 
 }

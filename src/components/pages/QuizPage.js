@@ -10,45 +10,36 @@ import Constants from "../base/Constants";
 export default class QuizPage extends Page {
 
     constructor(options) {
-        options = Object.assign({}, QuizPage.defaults, options);
         super(options);
 
         this.state = {
             status: Constants.STATE_LIST.TICKING,
             answers: [],
-            answersCount: 4,
+            allAnswers: 4,
             questionCount: 0,
+            needCounter: this.data.needCounter || true,
+            allQuestions: this.data.allQuestions || 10,
+            questionTime: this.data.questionTime || 5
         };
 
         this.updateState();
 
         this.components = {
-            counter:         new Counter({counter: 5}),
-            questionCounter: new QuestionCounter({countAll: 45, data: this.state}),
+            counter:         new Counter({data: this.state}),
+            questionCounter: new QuestionCounter({data: this.state}),
             question:        new Question({data: this.state}),
             answers:         new Answers({data: this.state}),
             button:          new Button({data: this.state})
         };
 
-        for (let key of Object.keys(this.components)) {
-            this.appendComponent(this.components[key], this.container);
-        }
+        this.appendComponents();
 
-        // this.bindListeners();
         this.onCounterStopped = this.onCounterStopped.bind(this);
         this.onClick = this.onClick.bind(this);
 
         this.components.button.addEventListener('Button.EVENT_CLICK', this.onClick);
         this.components.counter.addEventListener('Counter.EVENT_STOP_COUNT', this.onCounterStopped);
     }
-
-    // bindListeners () {
-    //     this.onCounterStopped = this.onCounterStopped.bind(this);
-    //     this.onClick = this.onClick.bind(this);
-    //
-    //     this.components.button.addEventListener('Button.EVENT_CLICK', this.onClick);
-    //     this.components.counter.addEventListener('Counter.EVENT_STOP_COUNT', this.onCounterStopped);
-    // }
 
     updateState () {
         this.state.status = Constants.STATE_LIST.TICKING;
@@ -57,10 +48,9 @@ export default class QuizPage extends Page {
 
         // Form a new array of answers
         this.state.answers = [];
-        for (let i = 0; i < this.state.answersCount; i++) {
-            const usedIndexes = [];
-
-            // Choose random question number from a storage
+        const usedIndexes = [];
+        for (let i = 0; i < this.state.allAnswers; i++) {
+            // Choose random region from a storage
             let index = null;
             do {
                 index = this.randomInt(0, this.data.storage.length - 1);
@@ -71,8 +61,8 @@ export default class QuizPage extends Page {
             const entry = this.data.storage[index];
             this.state.answers.push({
                 region: entry.region,
-                isAnswer: false,
-                number: entry.numbers[this.randomInt(0, entry.numbers.length - 1)]
+                number: entry.numbers[this.randomInt(0, entry.numbers.length - 1)],
+                isAnswer: false
             });
         }
         // Set random answer to true answer
@@ -81,18 +71,18 @@ export default class QuizPage extends Page {
     }
 
     setNewQuestion () {
-        this.components.counter.resetCount();
+        this.components.counter.reset();
         this.updateState();
         this.components.button.update();
         this.components.questionCounter.update();
         this.components.question.update();
         this.components.answers.update();
-        this.components.counter.startCount();
+        this.components.counter.start();
     }
 
     start () {
         super.start();
-        this.components.counter.startCount();
+        this.components.counter.start();
     }
 
     checkAnswers () {
@@ -107,7 +97,7 @@ export default class QuizPage extends Page {
 
     onClick () {
         if (this.state.status === Constants.STATE_LIST.TICKING) {
-            this.components.counter.stopCount();
+            this.components.counter.stop();
         } else if (this.state.status === Constants.STATE_LIST.NEXT) {
             // @todo delegate to the page manager
             this.setNewQuestion();

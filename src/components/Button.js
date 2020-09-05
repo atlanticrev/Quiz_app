@@ -41,7 +41,7 @@ export default class Button extends Component {
     }
 
     onStatusChange (e) {
-        console.log(`${this.constructor.name}: status -> ${e.detail.status}`, this.data);
+        // console.log(`${this.constructor.name}: status -> ${e.detail.status}`, this.data);
         this.setButtonText(e.detail.status);
     }
 

@@ -17,13 +17,14 @@ export default class App {
             this.pageManager.addPage(new QuizPage({name: 'quiz', data: Object.assign({}, options, {storage})}));
             this.pageManager.openPage('quiz', true)
         });
+
         this.pageManager.addPage(startPage);
 
         this.pageManager.openPage('start', false);
     }
 
     stop () {
-        this.pageManager.flush();
+        this.pageManager.flushPages();
     }
 
 }

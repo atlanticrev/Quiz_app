@@ -3,18 +3,10 @@ import Constants from "./base/Constants";
 
 export default class Answers extends Component {
 
-    static get defaults () {
-        return {
-            data: null
-        }
-    }
-
     constructor(options) {
         options = Object.assign({}, Answers.defaults, options);
         super(options);
-
         this.el = this.createEl(this.createTemplate());
-
         this.state = [];
         this.updateState();
         this.bindListeners();
@@ -43,43 +35,40 @@ export default class Answers extends Component {
 
     bindListeners () {
         this.onLick = this.onLick.bind(this);
-
-        for (let button of this.state) {
-            // @todo delegate?
-            button.button.addEventListener('click', this.onLick);
-        }
+        this.el.addEventListener('click', this.onLick);
     }
 
     onLick (e) {
-        e.preventDefault();
         if (this.data.status === Constants.STATE_LIST.NEXT) {
             return;
         }
-        const answer = this.state.find(answer => answer.index === e.target.dataset.index);
+        const button = e.composedPath().find(el => el.tagName === 'BUTTON');
+        if (!button) {
+            return;
+        }
+        const answer = this.state[button.dataset.index];
         answer.checked = !answer.checked;
-        console.log(answer.index, answer.checked);
+        // console.log(answer.index, answer.checked);
         if (answer.checked) {
-            e.target.classList.add('checked');
+            button.classList.add('checked');
         } else {
-            e.target.classList.remove('checked');
+            button.classList.remove('checked');
         }
     }
 
     createTemplate () {
+        let answers = [];
+        for (let i = 0; i < this.data.allAnswers; i++) {
+            answers.push(`
+                <button class="answer-button" data-index="${i}">
+                    <snap class="answers-text">${this.data.answers[i].number}</snap>
+                </button>  
+            `.trim());
+        }
+
         return `
             <div class="answers-container">
-                <button class="answer-button" data-index="0">
-                    <snap class="answers-text">${this.data.answers[0].number}</snap>
-                </button>                        
-                <button class="answer-button" data-index="1">
-                    <snap class="answers-text">${this.data.answers[1].number}</snap>
-                </button>                        
-                <button class="answer-button" data-index="2">
-                    <snap class="answers-text">${this.data.answers[2].number}</snap>
-                </button>                        
-                <button class="answer-button" data-index="3">
-                    <snap class="answers-text">${this.data.answers[3].number}</snap>
-                </button>                        
+                ${answers.join('')}                     
             </div>
         `;
     }
