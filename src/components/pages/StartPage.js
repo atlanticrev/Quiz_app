@@ -11,7 +11,7 @@ export default class StartPage extends Page {
             status: Constants.STATE_LIST.START,
             needCounter: true,
             allQuestions: 15,
-            questionTime: 20
+            questionTime: 5
         };
 
         this.components = {
@@ -27,7 +27,7 @@ export default class StartPage extends Page {
     start () {}
 
     onClick () {
-        this.dispatchEvent('StartPage.EVENT_START_QUIZ', this.state);
+        this.dispatchEvent('StartPage.EVENT_START', this.state);
     }
 
 }

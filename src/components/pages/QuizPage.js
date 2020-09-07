@@ -23,15 +23,17 @@ export default class QuizPage extends Page {
             answers: [],
             allAnswers: 4,
             questionCount: 0,
-            needCounter: this.data.needCounter || true,
             allQuestions: this.data.allQuestions || 10,
-            questionTime: this.data.questionTime || 5
+            needCounter: this.data.needCounter || true,
+            questionTime: this.data.needCounter
+                ? this.data.questionTime || 5
+                : null
         };
 
         this.updateState();
 
         this.components = {
-            counter:         new Counter({data: this.state}),
+            counter:         this.data.needCounter ? new Counter({data: this.state}) : null,
             questionCounter: new QuestionCounter({data: this.state}),
             question:        new Question({data: this.state}),
             answers:         new Answers({data: this.state}),
@@ -40,11 +42,11 @@ export default class QuizPage extends Page {
 
         this.appendComponents();
 
-        this.onCounterStopped = this.onCounterStopped.bind(this);
+        this.onAnswerSelected = this.onAnswerSelected.bind(this);
         this.onClick = this.onClick.bind(this);
 
         this.components.button.addEventListener('Button.EVENT_CLICK', this.onClick);
-        this.components.counter.addEventListener('Counter.EVENT_STOP_COUNT', this.onCounterStopped);
+        this.components.counter && this.components.counter.addEventListener('Counter.EVENT_STOP_COUNT', this.onAnswerSelected);
     }
 
     updateState () {
@@ -77,25 +79,25 @@ export default class QuizPage extends Page {
     }
 
     setNewQuestion () {
-        this.components.counter.reset();
+        this.components.counter && this.components.counter.reset();
         this.updateState();
         this.components.button.update();
         this.components.questionCounter.update();
         this.components.question.update();
         this.components.answers.update();
-        this.components.counter.start();
+        this.components.counter && this.components.counter.start();
     }
 
     start () {
         super.start();
-        this.components.counter.start();
+        this.components.counter && this.components.counter.start();
     }
 
     checkAnswers () {
         this.components.answers.checkAnswers();
     }
 
-    onCounterStopped () {
+    onAnswerSelected () {
         this.state.status = Constants.STATE_LIST.NEXT;
         this.components.button.dispatchEvent('statusChanged', {detail: {status: this.state.status}});
         this.checkAnswers();
@@ -103,9 +105,12 @@ export default class QuizPage extends Page {
 
     onClick () {
         if (this.state.status === Constants.STATE_LIST.TICKING) {
-            this.components.counter.stop();
+            if (this.components.counter) {
+                this.components.counter.stop();
+            } else {
+                this.onAnswerSelected();
+            }
         } else if (this.state.status === Constants.STATE_LIST.NEXT) {
-            // @todo delegate to the page manager
             this.setNewQuestion();
         }
     }

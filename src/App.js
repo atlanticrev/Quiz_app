@@ -11,11 +11,10 @@ export default class App {
 
     start () {
         const startPage = new StartPage({name: 'start'});
-        startPage.addEventListener('StartPage.EVENT_START_QUIZ', (options) => {
+        startPage.addEventListener('StartPage.EVENT_START', (options) => {
             this.pageManager.addPage(new QuizPage({name: 'quiz', data: options}));
             this.pageManager.openPage('quiz', true)
         });
-
         this.pageManager.addPage(startPage);
 
         this.pageManager.openPage('start', false);

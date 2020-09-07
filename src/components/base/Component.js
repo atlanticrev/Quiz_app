@@ -22,7 +22,7 @@ export default class Component extends Events {
 
     appendComponents () {
         for (let key of Object.keys(this.components)) {
-            this.appendComponent(this.components[key], this.container);
+            this.components[key] && this.appendComponent(this.components[key], this.container);
         }
     }
 
