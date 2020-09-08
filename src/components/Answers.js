@@ -8,20 +8,20 @@ export default class Answers extends Component {
         super(options);
         this.el = this.createEl(this.createTemplate());
         this.state = [];
-        this.updateState();
+        this.buttons = Array.from(this.el.querySelectorAll('.answer-button'));
         this.bindListeners();
+        this.updateState();
     }
 
     update () {
-        this.updateState();
         this.resetCheck();
+        this.updateState();
         this.setValues();
     }
 
     updateState () {
-        const buttons = Array.from(this.el.querySelectorAll('.answer-button'));
         this.state = [];
-        for (let button of buttons) {
+        for (let button of this.buttons) {
             this.state.push(
                 {
                     index: button.dataset.index,
@@ -34,11 +34,11 @@ export default class Answers extends Component {
     }
 
     bindListeners () {
-        this.onLick = this.onLick.bind(this);
-        this.el.addEventListener('click', this.onLick);
+        this.onClick = this.onClick.bind(this);
+        this.el.addEventListener('click', this.onClick);
     }
 
-    onLick (e) {
+    onClick (e) {
         if (this.data.status === Constants.STATE_LIST.NEXT) {
             return;
         }
