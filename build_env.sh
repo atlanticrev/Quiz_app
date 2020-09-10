@@ -74,7 +74,7 @@ module.exports = {
         }),
     ]
 };
-"
+" > ./webpack.config.js
 
 #npm
 npm init -y
